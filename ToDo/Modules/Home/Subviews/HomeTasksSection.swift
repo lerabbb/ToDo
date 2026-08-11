@@ -1,0 +1,43 @@
+//
+//  HomeTaskSection.swift
+//  ToDo
+//
+//  Created by Валерия Базаргуроева on 12.08.2026.
+//
+
+import UIKit
+
+protocol IHomeSection: AnyObject {
+
+    var numberOfItems: Int { get }
+
+    func createCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell?
+}
+
+class HomeTasksSection {
+
+    let items: [HomeTaskViewModel]
+
+    init(tasks: [Task]) {
+        items = tasks.map { HomeTaskViewModel(task: $0) }
+    }
+}
+
+extension HomeTasksSection: IHomeSection {
+
+    var numberOfItems: Int {
+        items.count
+    }
+
+    func createCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell? {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: HomeTaskCell.reuseId,
+            for: indexPath
+        )
+        let cellData = items[indexPath.row]
+        if let cell = cell as? HomeTaskCell {
+            cell.update(viewModel: cellData)
+        }
+        return cell
+    }
+}
