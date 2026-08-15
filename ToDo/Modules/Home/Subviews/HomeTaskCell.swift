@@ -27,6 +27,8 @@ class HomeTaskCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .systemFont(ofSize: 16)
         titleLabel.textColor = .white
+        titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byTruncatingTail
         stackView.addArrangedSubview(titleLabel)
 
         statusLabel.font = .systemFont(ofSize: 14)

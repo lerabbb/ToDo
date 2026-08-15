@@ -13,6 +13,8 @@ class HomePresenter: HomePresentationLogic {
 
     weak var viewController: HomeDisplayLogic?
 
+    // MARK: - HomePresentationLogic
+
     func presentFetchTasks(response: Home.FetchTasks.Response) {
         let sections = [HomeTasksSection(tasks: response.tasks)]
         viewController?.displayFetchTasks(viewModel: .init(sections: sections))

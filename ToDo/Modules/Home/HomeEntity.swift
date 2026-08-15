@@ -19,7 +19,7 @@ enum Home {
         }
 
         struct ViewModel {
-            let sections: [IHomeSection]
+            let sections: [HomeSection]
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol IHomeSection: AnyObject {
+protocol HomeSection: AnyObject {
 
     var numberOfItems: Int { get }
 
@@ -23,7 +23,7 @@ class HomeTasksSection {
     }
 }
 
-extension HomeTasksSection: IHomeSection {
+extension HomeTasksSection: HomeSection {
 
     var numberOfItems: Int {
         items.count

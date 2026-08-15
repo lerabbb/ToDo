@@ -15,6 +15,8 @@ class HomeInteractor: HomeBusinessLogic {
 
     var presenter: HomePresentationLogic?
 
+    // MARK: - HomeBusinessLogic
+
     func fetchTasks(request: Home.FetchTasks.Request) {
         presenter?.presentFetchTasks(response: .init(tasks: [
             .init(

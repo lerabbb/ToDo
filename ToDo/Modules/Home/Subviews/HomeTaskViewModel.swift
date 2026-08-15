@@ -13,6 +13,6 @@ struct HomeTaskViewModel {
     init(task: Task) {
         name = task.name
         dateString = task.getDateString()
-        statusString = task.status.title
+        statusString = task.status.string
     }
 }

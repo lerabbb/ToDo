@@ -10,7 +10,7 @@ import Foundation
 enum Status {
     case new, inProgress, done
 
-    var title: String {
+    var string: String {
         switch self {
         case .new:
             "Новая"

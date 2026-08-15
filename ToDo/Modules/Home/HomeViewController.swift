@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     private let addButton = UIButton()
     private let tableView = UITableView()
 
-    private var sections: [IHomeSection] = []
+    private var sections: [HomeSection] = []
 
     // MARK: - Setup
 
