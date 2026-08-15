@@ -26,6 +26,9 @@ class HomeRouter: IHomeRouter {
     }
 
     func routeToTaskDetail() {
-        
+        let taskVC = TaskViewController()
+        taskVC.modalPresentationStyle = .pageSheet
+
+        viewController?.navigationController?.pushViewController(taskVC, animated: true)
     }
 }
