@@ -12,19 +12,7 @@ class TaskButtonSection {
     let items: [TaskButtonViewModel]
 
     init?(status: Status) {
-        let items: [TaskButtonViewModel]
-        switch status {
-        case .new:
-            items = [
-                .init(title: "Взять в работу", titleColor: .white),
-                .init(title: "Удалить", titleColor: UIColor(named: "color/red-color"))
-            ]
-        case .inProgress:
-            items = [.init(title: "Выполнить", titleColor: .white)]
-        case .done:
-            items = []
-        }
-        
+        let items = status.availableButtons.map { TaskButtonViewModel(type: $0) }        
         guard !items.isEmpty else {
             return nil
         }

@@ -7,6 +7,7 @@
 
 protocol HomePresentationLogic: AnyObject {
     func presentFetchTasks(response: Home.FetchTasks.Response)
+    func presentError(response: Home.Error.Response)
 }
 
 class HomePresenter: HomePresentationLogic {
@@ -16,7 +17,11 @@ class HomePresenter: HomePresentationLogic {
     // MARK: - HomePresentationLogic
 
     func presentFetchTasks(response: Home.FetchTasks.Response) {
-        let sections = [HomeTasksSection(tasks: response.tasks)]
+        let sections = [HomeTasksSection(tasks: response.tasks)].compactMap { $0 }
         viewController?.displayFetchTasks(viewModel: .init(sections: sections))
+    }
+
+    func presentError(response: Home.Error.Response) {
+        viewController?.displayError(viewModel: .init(text: response.text))
     }
 }

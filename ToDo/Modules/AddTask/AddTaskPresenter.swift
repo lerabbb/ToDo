@@ -7,6 +7,7 @@
 
 protocol AddTaskPresentationLogic: AnyObject {
     func presentSaveTask(response: AddTask.Save.Response)
+    func presentError(response: AddTask.Error.Response)
 }
 
 class AddTaskPresenter: AddTaskPresentationLogic {
@@ -17,5 +18,9 @@ class AddTaskPresenter: AddTaskPresentationLogic {
 
     func presentSaveTask(response: AddTask.Save.Response) {
         viewController?.displaySaveTask(viewModel: .init())
+    }
+
+    func presentError(response: AddTask.Error.Response) {
+        viewController?.displayError(viewModel: .init(text: response.text))
     }
 }

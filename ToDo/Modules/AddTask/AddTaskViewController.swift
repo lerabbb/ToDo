@@ -9,6 +9,7 @@ import UIKit
 
 protocol AddTaskDisplayLogic: AnyObject {
     func displaySaveTask(viewModel: AddTask.Save.ViewModel)
+    func displayError(viewModel: AddTask.Error.ViewModel)
 }
 
 class AddTaskViewController: UIViewController {
@@ -35,19 +36,22 @@ class AddTaskViewController: UIViewController {
     func setup() {
         let interactor = AddTaskInteractor()
         let presenter = AddTaskPresenter()
+        let router = AddTaskRouter()
 
         interactor.presenter = presenter
         presenter.viewController = self
+        router.viewController = self
 
         self.interactor = interactor
-        self.router = AddTaskRouter()
+        self.router = router
     }
 
     // MARK: - Override
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "color/dark-gray-color")
+        view.backgroundColor = UIColor(named: "color/background-color")
+        navigationController?.navigationBar.tintColor = .white
 
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -110,7 +114,13 @@ extension AddTaskViewController: AddTaskDisplayLogic {
 
     func displaySaveTask(viewModel: AddTask.Save.ViewModel) {
         DispatchQueue.main.async {
-            self.dismiss(animated: true)
+            self.router?.dismiss(animated: true)
+        }
+    }
+
+    func displayError(viewModel: AddTask.Error.ViewModel) {
+        DispatchQueue.main.async {
+            self.router?.routeToMessage(title: "Ошибка", message: viewModel.text)
         }
     }
 }

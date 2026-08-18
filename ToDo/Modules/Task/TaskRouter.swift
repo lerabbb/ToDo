@@ -6,7 +6,9 @@
 //
 
 protocol ITaskRouter: AnyObject {
+    func routeToMessage(title: String?, message: String?)
+    func dismiss(animated: Bool)
 }
 
-class TaskRouter: ITaskRouter {
+class TaskRouter: Router, ITaskRouter {
 }

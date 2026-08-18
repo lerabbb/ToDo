@@ -22,4 +22,28 @@ enum Home {
             let sections: [HomeSection]
         }
     }
+
+    enum DeleteTask {
+        struct Request {
+            let id: UUID
+        }
+    }
+
+    enum UpdateStatus {
+        struct Request {
+            let id: UUID
+            let currentStatus: Status?
+            let newStatus: Status
+        }
+    }
+
+    enum Error {
+        struct Response {
+            let text: String
+        }
+
+        struct ViewModel {
+            let text: String
+        }
+    }
 }

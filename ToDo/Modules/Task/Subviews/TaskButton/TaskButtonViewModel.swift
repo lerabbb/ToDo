@@ -8,6 +8,31 @@
 import UIKit
 
 struct TaskButtonViewModel {
-    let title: String
-    let titleColor: UIColor?
+    let type: ButtonType
+}
+
+enum ButtonType {
+    case work
+    case execute
+    case delete
+
+    var title: String {
+        switch self {
+        case .work:
+            "Взять в работу"
+        case .execute:
+            "Выполнить"
+        case .delete:
+            "Удалить"
+        }
+    }
+
+    var color: UIColor? {
+        switch self {
+        case .work, .execute:
+            .white
+        case .delete:
+            UIColor(named: "color/red-color")
+        }
+    }
 }

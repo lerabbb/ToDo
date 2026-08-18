@@ -12,13 +12,17 @@ protocol HomeSection: AnyObject {
     var numberOfItems: Int { get }
 
     func createCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell?
+    func getItem(by row: Int) -> Any?
 }
 
 class HomeTasksSection {
 
     let items: [HomeTaskViewModel]
 
-    init(tasks: [Task]) {
+    init?(tasks: [Task]) {
+        guard !tasks.isEmpty else {
+            return nil
+        }
         items = tasks.map { HomeTaskViewModel(task: $0) }
     }
 }
@@ -39,5 +43,9 @@ extension HomeTasksSection: HomeSection {
             cell.update(viewModel: cellData)
         }
         return cell
+    }
+
+    func getItem(by row: Int) -> Any? {
+        items[row]
     }
 }

@@ -12,7 +12,10 @@ struct TaskTextViewModel {
     let text: String
     let font: UIFont
 
-    init(text: String, font: UIFont) {
+    init?(text: String?, font: UIFont) {
+        guard let text, !text.isEmpty else {
+            return nil
+        }
         self.text = text
         self.font = font
     }

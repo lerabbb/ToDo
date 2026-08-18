@@ -9,12 +9,11 @@ import UIKit
 
 protocol IHomeRouter: AnyObject {
     func routeToAddingTask()
-    func routeToTaskDetail()
+    func routeToTaskDetail(taskId: UUID)
+    func routeToMessage(title: String?, message: String?)
 }
 
-class HomeRouter: IHomeRouter {
-
-    weak var viewController: UIViewController?
+class HomeRouter: Router, IHomeRouter {
 
     // MARK: - IHomeRouter
 
@@ -22,11 +21,11 @@ class HomeRouter: IHomeRouter {
         let addTaskVC = AddTaskViewController()
         addTaskVC.modalPresentationStyle = .pageSheet
 
-        viewController?.navigationController?.present(addTaskVC, animated: true)
+        viewController?.navigationController?.pushViewController(addTaskVC, animated: true)
     }
 
-    func routeToTaskDetail() {
-        let taskVC = TaskViewController()
+    func routeToTaskDetail(taskId: UUID) {
+        let taskVC = TaskViewController(taskId: taskId)
         taskVC.modalPresentationStyle = .pageSheet
 
         viewController?.navigationController?.pushViewController(taskVC, animated: true)

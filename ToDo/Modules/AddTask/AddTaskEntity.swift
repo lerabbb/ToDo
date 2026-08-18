@@ -20,4 +20,15 @@ enum AddTask {
         struct ViewModel {
         }
     }
+
+    enum Error {
+        
+        struct Response {
+            let text: String
+        }
+
+        struct ViewModel {
+            let text: String
+        }
+    }
 }

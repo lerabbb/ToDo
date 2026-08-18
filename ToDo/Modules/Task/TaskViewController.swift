@@ -9,6 +9,8 @@ import UIKit
 
 protocol TaskDisplayLogic: AnyObject {
     func displayTask(viewModel: TaskEntity.FetchTask.ViewModel)
+    func displayDeleteTask(viewModel: TaskEntity.DeleteTask.ViewModel)
+    func displayError(viewModel: TaskEntity.Error.ViewModel)
 }
 
 class TaskViewController: UIViewController {
@@ -22,20 +24,22 @@ class TaskViewController: UIViewController {
 
     // MARK: - Setup
 
-    init() {
+    init(taskId: UUID) {
         super.init(nibName: nil, bundle: nil)
-        setup()
+        setup(taskId: taskId)
     }
     
-    func setup() {
+    func setup(taskId: UUID) {
         let presenter = TaskPresenter()
-        let interactor = TaskInteractor()
+        let interactor = TaskInteractor(taskId: taskId)
+        let router = TaskRouter()
 
         interactor.presenter = presenter
         presenter.viewController = self
+        router.viewController = self
 
         self.interactor = interactor
-        self.router = TaskRouter()
+        self.router = router
     }
 
     required init?(coder: NSCoder) {
@@ -83,6 +87,7 @@ extension TaskViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = sections[indexPath.section].createCell(tableView: tableView, indexPath: indexPath)
+        (cell as? TaskButtonCell)?.delegate = self
         return cell ?? UITableViewCell()
     }
 }
@@ -93,6 +98,20 @@ extension TaskViewController: UITableViewDelegate {
 
 }
 
+extension TaskViewController: TaskButtonCellDelegate {
+
+    func buttonDidTap(type: ButtonType) {
+        switch type {
+        case .work:
+            interactor?.updateStatus(request: .init(newStatus: .inProgress))
+        case .execute:
+            interactor?.updateStatus(request: .init(newStatus: .done))
+        case .delete:
+            interactor?.deleteTask(request: .init())
+        }
+    }
+}
+
 // MARK: - TaskDisplayLogic
 
 extension TaskViewController: TaskDisplayLogic {
@@ -101,6 +120,18 @@ extension TaskViewController: TaskDisplayLogic {
         DispatchQueue.main.async {
             self.sections = viewModel.sections
             self.tableView.reloadData()
+        }
+    }
+
+    func displayDeleteTask(viewModel: TaskEntity.DeleteTask.ViewModel) {
+        DispatchQueue.main.async {
+            self.router?.dismiss(animated: true)
+        }
+    }
+
+    func displayError(viewModel: TaskEntity.Error.ViewModel) {
+        DispatchQueue.main.async {
+            self.router?.routeToMessage(title: "Ошибка", message: viewModel.text)
         }
     }
 }

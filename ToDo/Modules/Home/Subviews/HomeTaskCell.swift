@@ -58,7 +58,7 @@ class HomeTaskCell: UITableViewCell {
 
     func update(viewModel: HomeTaskViewModel) {
         titleLabel.text = viewModel.name
-        statusLabel.text = viewModel.statusString
+        statusLabel.text = viewModel.status?.string
         dateLabel.text = viewModel.dateString
     }
 

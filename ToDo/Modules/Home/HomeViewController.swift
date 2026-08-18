@@ -10,6 +10,7 @@ import UIKit
 protocol HomeDisplayLogic: AnyObject
 {
     func displayFetchTasks(viewModel: Home.FetchTasks.ViewModel)
+    func displayError(viewModel: Home.Error.ViewModel)
 }
 
 class HomeViewController: UIViewController {
@@ -106,7 +107,10 @@ class HomeViewController: UIViewController {
         addButton.heightAnchor.constraint(equalToConstant: 64).isActive = true
         addButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         interactor?.fetchTasks(request: .init())
     }
 
@@ -120,6 +124,19 @@ class HomeViewController: UIViewController {
     @objc
     private func onRefresh() {
         interactor?.fetchTasks(request: .init())
+    }
+
+    // MARK: - Private
+
+    private func getItem(by indexPath: IndexPath) -> HomeTaskViewModel? {
+        guard indexPath.section < sections.count else {
+            return nil
+        }
+        let section = sections[indexPath.section]
+        guard indexPath.row < section.numberOfItems else {
+            return nil
+        }
+        return section.getItem(by: indexPath.row) as? HomeTaskViewModel
     }
 }
 
@@ -139,6 +156,36 @@ extension HomeViewController: UITableViewDataSource {
         let cell = sections[indexPath.section].createCell(tableView: tableView, indexPath: indexPath)
         return cell ?? UITableViewCell()
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let item = getItem(by: indexPath), let id = item.id else {
+            return nil
+        }
+        let availableButtons = item.status?.availableButtons ?? []
+
+        var actions: [UIContextualAction] = []
+        for buttonType in availableButtons {
+            let isDestructive = buttonType == .delete
+            let action = UIContextualAction(style: isDestructive ? .destructive : .normal, title: buttonType.title) { [weak self] (_, _, completion) in
+                switch buttonType {
+                case .work:
+                    self?.interactor?.updateStatus(request: .init(id: id, currentStatus: item.status, newStatus: .inProgress))
+                case .execute:
+                    self?.interactor?.updateStatus(request: .init(id: id, currentStatus: item.status, newStatus: .done))
+                case .delete:
+                    self?.interactor?.deleteTask(request: .init(id: id))
+                }
+                completion(true)
+            }
+            if !isDestructive {
+                action.backgroundColor = UIColor(named: "color/primary-color")
+            }
+            
+            actions.append(action)
+        }
+
+        return UISwipeActionsConfiguration(actions: actions)
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -146,7 +193,10 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        router?.routeToTaskDetail()
+        guard let item = getItem(by: indexPath), let id = item.id else {
+            return
+        }
+        router?.routeToTaskDetail(taskId: id)
     }
 }
 
@@ -165,5 +215,9 @@ extension HomeViewController: HomeDisplayLogic {
             self.sections = viewModel.sections
             self.tableView.reloadData()
         }
+    }
+
+    func displayError(viewModel: Home.Error.ViewModel) {
+        router?.routeToMessage(title: "Ошибка", message: viewModel.text)
     }
 }

@@ -5,14 +5,19 @@
 //  Created by Валерия Базаргуроева on 12.08.2026.
 //
 
+import Foundation
+
 struct HomeTaskViewModel {
-    let name: String
-    let dateString: String
-    let statusString: String
+
+    let id: UUID?
+    let name: String?
+    let dateString: String?
+    let status: Status?
 
     init(task: Task) {
-        name = task.name
-        dateString = task.getDateString()
-        statusString = task.status.string
+        id = task.id
+        name = task.name ?? ""
+        dateString = task.creationDate?.getString()
+        status = task.statusValue
     }
 }

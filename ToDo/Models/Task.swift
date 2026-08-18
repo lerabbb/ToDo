@@ -7,32 +7,52 @@
 
 import Foundation
 
-enum Status {
-    case new, inProgress, done
+enum Status: Int64 {
+    case new
+    case inProgress
+    case done
 
     var string: String {
         switch self {
+        case .new: "Новая"
+        case .inProgress: "В работе"
+        case .done: "Выполнено"
+        }
+    }
+
+    var nextStatus: Status? {
+        switch self {
+        case .new: .inProgress
+        case .inProgress: .done
+        case .done: nil
+        }
+    }
+
+    var availableButtons: [ButtonType] {
+        switch self {
         case .new:
-            "Новая"
+            [.work, .delete]
         case .inProgress:
-            "В работе"
+            [.execute]
         case .done:
-            "Выполнено"
+            []
         }
     }
 }
 
-struct Task {
-    let id: String
-    let name: String
-    let description: String
-    let creationDate: Date
-    let status: Status
+extension Task {
+    
+    var statusValue: Status {
+        return Status(rawValue: status) ?? .new
+    }
+}
 
-    func getDateString() -> String {
+extension Date {
+
+    func getString() -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .medium
-        return formatter.string(from: creationDate)
+        return formatter.string(from: self)
     }
 }

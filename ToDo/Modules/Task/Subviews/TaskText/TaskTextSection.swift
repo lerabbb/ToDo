@@ -14,13 +14,16 @@ class TaskTextSection {
     init(task: Task) {
         var items: [TaskTextViewModel] = [
             .init(text: task.name, font: .boldSystemFont(ofSize: 20)),
-            .init(text: task.status.string, font: .systemFont(ofSize: 12)),
-            .init(text: task.getDateString(), font: .systemFont(ofSize: 12))
-        ]
+            .init(text: task.statusValue.string, font: .systemFont(ofSize: 12)),
+            .init(text: task.creationDate?.getString(), font: .systemFont(ofSize: 12))
+        ].compactMap { $0 }
 
-        let description = task.description.isEmpty ? "--" : task.description
-        items.append(.init(text: description, font: .systemFont(ofSize: 20)))
-
+        var descriptionText = task.details ?? ""
+        descriptionText = descriptionText.isEmpty ? "--" : descriptionText
+        if let description = TaskTextViewModel(text: descriptionText, font: .systemFont(ofSize: 16)) {
+            items.append(description)
+        }
+        
         self.items = items
     }
 }

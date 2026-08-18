@@ -22,4 +22,31 @@ enum TaskEntity {
             let sections: [TaskSection]
         }
     }
+
+    enum DeleteTask {
+        struct Request {
+        }
+
+        struct Response {
+        }
+
+        struct ViewModel {
+        }
+    }
+
+    enum UpdateStatus {
+        struct Request {
+            let newStatus: Status
+        }
+    }
+
+    enum Error {
+        struct Response {
+            let text: String
+        }
+
+        struct ViewModel {
+            let text: String
+        }
+    }
 }

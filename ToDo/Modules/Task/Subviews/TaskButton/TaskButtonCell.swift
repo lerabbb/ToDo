@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol TaskButtonCellDelegate: AnyObject {
+    func buttonDidTap(type: ButtonType)
+}
+
 class TaskButtonCell: UITableViewCell {
 
     static let reuseId = "TaskButtonCell"
+
+    weak var delegate: TaskButtonCellDelegate?
+
+    private var buttonType: ButtonType?
 
     private let button = UIButton()
 
@@ -30,8 +38,9 @@ class TaskButtonCell: UITableViewCell {
     }
 
     func update(viewModel: TaskButtonViewModel) {
-        button.configuration?.title = viewModel.title
-        button.configuration?.baseForegroundColor = viewModel.titleColor
+        buttonType = viewModel.type
+        button.configuration?.title = buttonType?.title
+        button.configuration?.baseForegroundColor = buttonType?.color
     }
 
     required init?(coder: NSCoder) {
@@ -41,5 +50,9 @@ class TaskButtonCell: UITableViewCell {
     // MARK: - Selectors
 
     @objc private func onButtonDidTap(_ sender: UIButton) {
+        guard let buttonType else {
+            return
+        }
+        delegate?.buttonDidTap(type: buttonType)
     }
 }
