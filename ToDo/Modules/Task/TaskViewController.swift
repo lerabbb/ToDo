@@ -54,6 +54,7 @@ class TaskViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
 
         tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(TaskTextCell.self, forCellReuseIdentifier: TaskTextCell.reuseId)

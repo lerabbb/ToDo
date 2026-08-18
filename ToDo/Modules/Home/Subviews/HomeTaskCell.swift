@@ -38,10 +38,10 @@ class HomeTaskCell: UITableViewCell {
         stackView.addArrangedSubview(dateLabel)
 
         contentView.addSubview(stackView)
-        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 8).isActive = true
+        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
-        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8).isActive = true
     }
 
     func update(viewModel: HomeTaskViewModel) {
