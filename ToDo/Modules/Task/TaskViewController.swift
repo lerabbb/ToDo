@@ -131,7 +131,7 @@ extension TaskViewController: TaskDisplayLogic {
 
     func displayError(viewModel: TaskEntity.Error.ViewModel) {
         DispatchQueue.main.async {
-            self.router?.routeToMessage(title: "Ошибка", message: viewModel.text)
+            self.router?.routeToMessage(title: Strings.error, message: viewModel.text)
         }
     }
 }

@@ -54,7 +54,7 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Главная"
+        title = Strings.Home.title
         view.backgroundColor = UIColor(named: "color/background-color")
 
         placeholderImageView.image = UIImage(named: "home/placeholder")
@@ -65,14 +65,14 @@ class HomeViewController: UIViewController {
         placeholderImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         placeholderImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 75).isActive = true
 
-        questionLabel.text = "Что вы хотите сделать сегодня?"
+        questionLabel.text = Strings.Home.question
         questionLabel.textColor = .white
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(questionLabel)
         questionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         questionLabel.topAnchor.constraint(equalTo: placeholderImageView.bottomAnchor, constant: 10).isActive = true
 
-        hintLabel.text = "Нажмите +, чтобы добавить задачу"
+        hintLabel.text = Strings.Home.hint
         hintLabel.textColor = .white
         hintLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(hintLabel)
@@ -81,6 +81,7 @@ class HomeViewController: UIViewController {
         hintLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
 
         tableView.backgroundColor = .clear
+        tableView.separatorColor = UIColor(named: "color/gray-color")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(HomeTaskCell.self, forCellReuseIdentifier: HomeTaskCell.reuseId)
@@ -218,6 +219,6 @@ extension HomeViewController: HomeDisplayLogic {
     }
 
     func displayError(viewModel: Home.Error.ViewModel) {
-        router?.routeToMessage(title: "Ошибка", message: viewModel.text)
+        router?.routeToMessage(title: Strings.error, message: viewModel.text)
     }
 }

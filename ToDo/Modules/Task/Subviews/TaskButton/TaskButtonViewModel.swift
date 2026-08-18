@@ -18,12 +18,9 @@ enum ButtonType {
 
     var title: String {
         switch self {
-        case .work:
-            "Взять в работу"
-        case .execute:
-            "Выполнить"
-        case .delete:
-            "Удалить"
+        case .work: Strings.TaskAction.work
+        case .execute: Strings.TaskAction.execute
+        case .delete: Strings.TaskAction.delete
         }
     }
 

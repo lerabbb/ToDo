@@ -14,9 +14,9 @@ enum Status: Int64 {
 
     var string: String {
         switch self {
-        case .new: "Новая"
-        case .inProgress: "В работе"
-        case .done: "Выполнено"
+        case .new: Strings.TaskStatus.new
+        case .inProgress: Strings.TaskStatus.inProgress
+        case .done: Strings.TaskStatus.done
         }
     }
 

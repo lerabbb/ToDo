@@ -64,12 +64,15 @@ class AddTaskViewController: UIViewController {
         stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16).isActive = true
 
         titleLabel.textColor = .white
-        titleLabel.text = "Создать задачу"
+        titleLabel.text = Strings.AddTask.createTask
         titleLabel.font = .boldSystemFont(ofSize: 20)
         stackView.addArrangedSubview(titleLabel)
         titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-        titleTextField.placeholder = "Краткое описание"
+        titleTextField.attributedPlaceholder = NSAttributedString(
+            string: Strings.AddTask.titlePlaceholder,
+            attributes: [.foregroundColor: UIColor(named: "color/gray-color") ?? .gray]
+        )
         stackView.addArrangedSubview(titleTextField)
         titleTextField.heightAnchor.constraint(equalToConstant: 44).isActive = true
 
@@ -84,7 +87,7 @@ class AddTaskViewController: UIViewController {
         descriptionTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
 
         saveButton.configuration = .filled()
-        saveButton.configuration?.title = "Сохранить"
+        saveButton.configuration?.title = Strings.save
         saveButton.configuration?.baseForegroundColor = .white
         saveButton.configuration?.baseBackgroundColor = UIColor(named: "color/primary-color")
         saveButton.addTarget(self, action: #selector(onSaveButton), for: .touchUpInside)
@@ -102,7 +105,7 @@ class AddTaskViewController: UIViewController {
     @objc
     private func onSaveButton(button: UIButton) {
         interactor?.saveTask(request: .init(
-            name: titleTextField.text ?? "Новая задача",
+            name: titleTextField.text ?? Strings.defaultTaskName,
             description: descriptionTextView.text ?? ""
         ))
     }
@@ -120,7 +123,7 @@ extension AddTaskViewController: AddTaskDisplayLogic {
 
     func displayError(viewModel: AddTask.Error.ViewModel) {
         DispatchQueue.main.async {
-            self.router?.routeToMessage(title: "Ошибка", message: viewModel.text)
+            self.router?.routeToMessage(title: Strings.error, message: viewModel.text)
         }
     }
 }

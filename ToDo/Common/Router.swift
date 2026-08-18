@@ -16,7 +16,7 @@ class Router {
             return
         }
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default))
+        alert.addAction(UIAlertAction(title: Strings.ok, style: .default))
         viewController.present(alert, animated: true)
     }
 

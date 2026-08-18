@@ -14,13 +14,11 @@ class HomeTaskCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let statusLabel = UILabel()
     private let dateLabel = UILabel()
-    private let actionButton = UIButton()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
-        contentView.backgroundColor = UIColor(named: "color/dark-gray-color")
-        contentView.layer.cornerRadius = 4
+        selectionStyle = .none
 
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -41,19 +39,9 @@ class HomeTaskCell: UITableViewCell {
 
         contentView.addSubview(stackView)
         stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 8).isActive = true
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4).isActive = true
-
-        actionButton.configuration = .plain()
-        actionButton.configuration?.image = UIImage(systemName: "ellipsis")
-        actionButton.configuration?.baseForegroundColor = .white
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(actionButton)
-        actionButton.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
-        actionButton.leftAnchor.constraint(equalTo: stackView.rightAnchor, constant: 8).isActive = true
-        actionButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8).isActive = true
-        actionButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        actionButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
+        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8).isActive = true
     }
 
     func update(viewModel: HomeTaskViewModel) {
