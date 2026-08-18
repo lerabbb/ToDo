@@ -41,7 +41,7 @@ class TaskInteractor: TaskBusinessLogic {
     func deleteTask(request: TaskEntity.DeleteTask.Request) {
         taskManager.deleteTask(by: taskId) { [weak self] error in
             guard error == nil else {
-                self?.presenter?.presentError(response: .init(text: error?.localizedDescription ?? ""))
+                self?.presenter?.presentError(response: .init(text: Strings.unknownError))
                 return
             }
             self?.presenter?.presentDeleteTask(response: .init())
@@ -63,7 +63,7 @@ class TaskInteractor: TaskBusinessLogic {
 
     private func showTask(_ task: Task?, error: Error?) {
         guard error == nil else {
-            presenter?.presentError(response: .init(text: error?.localizedDescription ?? ""))
+            presenter?.presentError(response: .init(text: Strings.unknownError))
             return
         }
         guard let task else {

@@ -11,6 +11,7 @@ struct Strings {
     static let save = "Сохранить"
     static let error = "Ошибка"
     static let defaultTaskName = "Новая задача"
+    static let unknownError = "Произошла непредвиденная ошибка"
 
     struct AddTask {
         static let createTask = "Создать задачу"

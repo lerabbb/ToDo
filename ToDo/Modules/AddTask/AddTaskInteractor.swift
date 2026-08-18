@@ -26,7 +26,7 @@ class AddTaskInteractor: AddTaskBusinessLogic {
         taskManager.createTask(name: request.name, description: request.description) { [weak self] task, error in
             DispatchQueue.main.async {
                 guard error == nil else {
-                    self?.presenter?.presentError(response: .init(text: error?.localizedDescription ?? ""))
+                    self?.presenter?.presentError(response: .init(text: Strings.unknownError))
                     return
                 }
                 guard task != nil else {

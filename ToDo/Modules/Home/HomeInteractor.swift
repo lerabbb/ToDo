@@ -25,7 +25,7 @@ class HomeInteractor: HomeBusinessLogic {
         taskManager.fetchTasks { [weak self] tasks, error in
             DispatchQueue.main.async {
                 guard error == nil else {
-                    self?.presenter?.presentError(response: .init(text: error?.localizedDescription ?? ""))
+                    self?.presenter?.presentError(response: .init(text: Strings.unknownError))
                     return
                 }
                 self?.presenter?.presentFetchTasks(response: .init(tasks: tasks))
@@ -36,7 +36,7 @@ class HomeInteractor: HomeBusinessLogic {
     func deleteTask(request: Home.DeleteTask.Request) {
         taskManager.deleteTask(by: request.id) { [weak self] error in
             guard error == nil else {
-                self?.presenter?.presentError(response: .init(text: error?.localizedDescription ?? ""))
+                self?.presenter?.presentError(response: .init(text: Strings.unknownError))
                 return
             }
             self?.fetchTasks(request: .init())
@@ -50,7 +50,7 @@ class HomeInteractor: HomeBusinessLogic {
         taskManager.updateTask(id: request.id, status: request.newStatus) { [weak self] task, error in
             DispatchQueue.main.async {
                 guard error == nil else {
-                    self?.presenter?.presentError(response: .init(text: error?.localizedDescription ?? ""))
+                    self?.presenter?.presentError(response: .init(text: Strings.unknownError))
                     return
                 }
                 self?.fetchTasks(request: .init())
